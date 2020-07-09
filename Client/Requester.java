@@ -28,7 +28,7 @@ public class Requester extends Worker {
     }
 
 
-    //サーバーにスコアを送信する
+    //サーバーにスコアを送信し、ランキングを表示
     public void sendScore(Player player){
         try {
             String name = player.getName();
@@ -42,12 +42,12 @@ public class Requester extends Worker {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             
+            //ランキングを表示
             for(int i=0; i<6; i++){
                 String str = in.readLine();
                 System.out.println(str);
                 Thread.sleep(1000);
             }
-
 
             socket.close();
         } catch (Exception e) {
@@ -55,21 +55,4 @@ public class Requester extends Worker {
         }
     }
 
-    public void showRanking(){
-        try{
-            InetAddress addr = InetAddress.getByName("localhost");  // IPアドレスへの変換
-            Socket socket = new Socket(addr, 8080);   // ポート番号を設定する
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            
-            for(int i=0; i<6; i++){
-                String str = in.readLine();
-                Thread.sleep(100);
-                System.out.println(str);
-            }
-            socket.close();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 }

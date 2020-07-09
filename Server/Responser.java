@@ -43,7 +43,8 @@ public class Responser{
                 objectOutput.writeObject(Responser.timeList);      
                 
                 //音楽ファイルの送信
-                FileInputStream fis = new FileInputStream("data/music/konpeki_difficult/sound.wav");
+                String musicFilePath = "data/music/konpeki/sound.wav";
+                FileInputStream fis = new FileInputStream(musicFilePath);
                 byte[] buffer = new byte[fis.available()];
                 fis.read(buffer);
                 objectOutput.writeObject(buffer); 
@@ -68,11 +69,12 @@ public class Responser{
         String p_score = in.readLine();   //スコアを受け取る
 
 
+        String rankingFilePath = "data/ranking/konpeki.txt";
         //key=ID, value=score
         Map<Integer,Integer> scores = new HashMap<Integer,Integer>();
         ArrayList<String> playerNameList = new ArrayList<String>();
         
-        Scanner s2 = new Scanner(new File("data/ranking/konpeki.txt"));
+        Scanner s2 = new Scanner(new File(rankingFilePath));
         int count = 1;
         
         int id = -1, score = -1;
@@ -92,7 +94,7 @@ public class Responser{
 
         try{
             int nextId = playerNameList.size()+1;
-            File file = new File("data/ranking/konpeki.txt");
+            File file = new File(rankingFilePath);
             FileWriter filewriter = new FileWriter(file, true);
             filewriter.write(nextId + " " + p_score + " " + p_name + "\n");
             filewriter.close();

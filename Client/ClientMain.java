@@ -31,9 +31,7 @@ public class ClientMain {
         sc.close();
         player.setName(playerName);
         
-        requester.sendScore(player);  //サーバーに今回のスコアを送信
-        //ランキングの表示
-        //requester.showRanking();
+        requester.sendScore(player);  //サーバーに今回のスコアを送信し、ランキングを表示
 
         gameMaster.say("THANK YOU FOR PLAYING!");
     }
