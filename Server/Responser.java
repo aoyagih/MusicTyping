@@ -29,6 +29,7 @@ public class Responser{
         s.close();
     }
 
+    //クライアントの要求に応じてゲームデータを送信
     public void sendGameData() throws IOException {
         try {
             ServerSocket s = new ServerSocket(8080); // ソケットを作成する
@@ -42,7 +43,7 @@ public class Responser{
                 objectOutput.writeObject(Responser.timeList);      
                 
                 //音楽ファイルの送信
-                FileInputStream fis = new FileInputStream("data/music/konpeki_easy/sound.wav");
+                FileInputStream fis = new FileInputStream("data/music/konpeki_difficult/sound.wav");
                 byte[] buffer = new byte[fis.available()];
                 fis.read(buffer);
                 objectOutput.writeObject(buffer); 
@@ -57,12 +58,14 @@ public class Responser{
         
     }
 
-    public void registerScore() throws IOException {
+    
+    //スコアを受け取り、ランキングに登録する
+    public void updateRanking() throws IOException {
         ServerSocket s = new ServerSocket(8080); // ソケットを作成する
         Socket socket = s.accept();  // コネクション設定要求を待つ
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        String p_name = in.readLine();
-        String p_score = in.readLine();
+        String p_name = in.readLine();    //名前を受け取る
+        String p_score = in.readLine();   //スコアを受け取る
 
 
         //key=ID, value=score
@@ -99,10 +102,10 @@ public class Responser{
             System.out.println(e);
         }
 
-        // 2.Map.Entryのリストを作成する
+        // スコアリストのEntryのリストを作成する
         List<Entry<Integer, Integer>> list_entries = new ArrayList<Entry<Integer, Integer>>(scores.entrySet());
         
-        // 6. 比較関数Comparatorを使用してMap.Entryの値を比較する（降順）
+        // リストの要素をスコアが高い順(降順)にソートする。
         Collections.sort(list_entries, new Comparator<Entry<Integer, Integer>>() {
             public int compare(Entry<Integer, Integer> obj1, Entry<Integer, Integer> obj2) {
                 //降順
@@ -110,8 +113,10 @@ public class Responser{
             }
         });
 
+
         PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);  //送信バッファ設定
 
+        //クライアント側にランキングデータを送信する
         String[] ordinalNumber = {"1st", "2nd", "3rd", "4th", "5th"};
         out.println("--- RANKING, PLAYER, SCORE ---");
         for(int i=0; i<5; i++){

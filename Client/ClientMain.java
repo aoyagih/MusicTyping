@@ -12,22 +12,25 @@ public class ClientMain {
         
         gameMaster.explain();  //ゲーム説明
 
-        gameMaster.say("LOADING FILES...");
+        gameMaster.say("LOADING MUSIC FILE...");
         requester.requestGameData(gameData);  //サーバから音楽データをダウンロード
         gameMaster.say("LOAD SUCCESSFUL!");
         Thread.sleep(2000);
 
         gameMaster.startGame(gameData);  //ゲームスタート
+        System.out.println();
         gameMaster.say("FINISH!");  //ゲーム終了
         
+        gameMaster.showScore(player);  //スコアの表示
+
         //プレイヤーの名前を入力
         gameMaster.say("PLEASE INPUT YOUR NAME.");
+        System.out.print("▶︎ ");
         Scanner sc = new Scanner(System.in);
         String playerName = sc.nextLine();
         sc.close();
         player.setName(playerName);
         
-        gameMaster.showScore(player);  //スコアの表示
         requester.sendScore(player);  //サーバーに今回のスコアを送信
         //ランキングの表示
         //requester.showRanking();

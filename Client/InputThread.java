@@ -32,6 +32,7 @@ public class InputThread extends Thread{
                             answered = true;
                         }else{
                             System.out.println("--- WRONG!  Score:" + gameData.getPlayer().getScore() + " ---");
+                            System.out.print("▶︎ "); 
                         }
                         
                     }

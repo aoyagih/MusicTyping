@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-
 import javax.sound.sampled.*;
 
 public class GameMaster extends Worker{
@@ -39,7 +38,7 @@ public class GameMaster extends Worker{
         }
         say("START!");
         //音楽ファイルの再生
-        AudioInputStream audioInput = AudioSystem.getAudioInputStream(new File("download_yuzu.wav"));
+        AudioInputStream audioInput = AudioSystem.getAudioInputStream(new File("download_music.wav"));
         Clip clip = AudioSystem.getClip();
         clip.open(audioInput);
         clip.start();
@@ -48,14 +47,18 @@ public class GameMaster extends Worker{
         for(int i=0; i < gameData.getLyricsList().size(); i++){
             gameData.setCurrentLyrics(gameData.getLyricsList().get(i));
             System.out.println(gameData.getLyricsList().get(i));
+            System.out.print("▶︎ ");
             InputThread inputThread = new InputThread(gameData);
             inputThread.start();
             try{
+                //各小節の時間だけスレッドを停止する
                 Thread.sleep(gameData.getTimeList().get(i));
             }catch(InterruptedException e){
                 System.out.println(e.toString());
             }
             inputThread.Halt();
+            System.out.println();
+            System.out.println("----------------------------------");
         }
         //音楽ファイルの停止
         clip.stop();
@@ -63,7 +66,7 @@ public class GameMaster extends Worker{
 
     //スコアを表示
     public void showScore(Player player) throws InterruptedException {
-        say("PLAYER: " + player.getName() + ", SCORE: " + player.getScore());
+        say("SCORE: " + player.getScore());
         Thread.sleep(1000);
     }
 

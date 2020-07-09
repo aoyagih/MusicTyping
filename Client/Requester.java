@@ -28,6 +28,7 @@ public class Requester extends Worker {
     }
 
 
+    //サーバーにスコアを送信する
     public void sendScore(Player player){
         try {
             String name = player.getName();
@@ -36,8 +37,8 @@ public class Requester extends Worker {
             InetAddress addr = InetAddress.getByName("localhost");  // IPアドレスへの変換
             Socket socket = new Socket(addr, 8080);   // ポート番号を設定する
             PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-            out.println(name);
-            out.println(score);
+            out.println(name);     //プレイヤーの名前を送信
+            out.println(score);    //プレイヤーのスコアを送信
 
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             
